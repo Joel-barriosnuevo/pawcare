@@ -4,10 +4,16 @@ const nextConfig = {
   basePath: process.env.NODE_ENV === 'production' ? '/pawcare' : '', // Nombre del repositorio
   images: {
     unoptimized: true, // Necesario para export estático
-    domains: ['images.unsplash.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
   },
   reactStrictMode: true,
   trailingSlash: true, // Añadir trailing slash para mejor compatibilidad
+  distDir: 'out',
 }
 
 export default nextConfig;
