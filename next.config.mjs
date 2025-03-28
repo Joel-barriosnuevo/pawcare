@@ -1,9 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',  // Necesario para GitHub Pages
-  basePath: process.env.NODE_ENV === 'production' ? '/pawcare' : '', // Nombre del repositorio
+  output: 'export',
+  basePath: process.env.NODE_ENV === 'production' ? '/pawcare' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/pawcare/' : '',
   images: {
-    unoptimized: true, // Necesario para export estático
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -12,8 +13,7 @@ const nextConfig = {
     ],
   },
   reactStrictMode: true,
-  trailingSlash: true, // Añadir trailing slash para mejor compatibilidad
-  distDir: 'out',
+  trailingSlash: true,
 }
 
 export default nextConfig;
