@@ -5,6 +5,8 @@ const nextConfig = {
   images: {
     unoptimized: true, // Necesario para export estático
   },
+  trailingSlash: true, // Añadir trailing slash para mejor compatibilidad
+  assetPrefix: '/pawcare/', // Prefijo para assets
 }
 
 export default nextConfig;

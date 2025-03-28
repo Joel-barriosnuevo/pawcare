@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# PawCare - Plataforma de Servicios para Mascotas
 
-## Getting Started
+PawCare es una plataforma integral que conecta a dueños de mascotas con proveedores de servicios profesionales, facilitando la gestión de citas, servicios y cuidados para mascotas.
 
-First, run the development server:
+## Características Principales
+
+### Para Clientes
+- Dashboard personalizado con estadísticas y resumen de actividades
+- Gestión de citas y reservas
+- Perfil de mascotas
+- Lista de servicios favoritos
+- Sistema de reseñas
+- Notificaciones en tiempo real
+
+### Para Proveedores
+- Panel de control con métricas importantes
+- Gestión de servicios y catálogo
+- Control de citas y agenda
+- Sistema de ingresos y transacciones
+- Gestión de reseñas y calificaciones
+- Perfil profesional personalizable
+
+## Tecnologías Utilizadas
+
+- Next.js 14
+- React
+- Tailwind CSS
+- Radix UI
+- Lucide Icons
+- Otras bibliotecas modernas
+
+## Instalación
 
 ```bash
+# Clonar el repositorio
+git clone https://github.com/Joel-barriosnuevo/pawcare.git
+
+# Instalar dependencias
+cd pawcare
+npm install
+
+# Iniciar servidor de desarrollo
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Estructura del Proyecto
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```
+pawcare/
+├── app/                    # Rutas y páginas de la aplicación
+│   ├── client/            # Panel de cliente
+│   ├── provider/          # Panel de proveedor
+│   └── ...
+├── components/            # Componentes reutilizables
+├── lib/                   # Utilidades y configuraciones
+└── public/               # Archivos estáticos
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Contribuir
 
-## Learn More
+Las contribuciones son bienvenidas. Por favor, lee las guías de contribución antes de enviar un pull request.
 
-To learn more about Next.js, take a look at the following resources:
+## Licencia
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
