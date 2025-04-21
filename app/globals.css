@@ -75,17 +75,48 @@
   }
 }
 
-.paw-icon {
-  fill: theme("colors.pawcare.teal");
-  stroke: theme("colors.pawcare.navy");
-  stroke-width: 1;
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-fade-in {
+  animation: fade-in 0.8s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 1s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.animate-bounce {
+  animation: bounce 1.2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.animate-pulse {
+  animation: pulse 2s infinite;
 }
 
 .gradient-bg {
-  background: linear-gradient(135deg, #f5efe0 0%, #f5a623 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
 }
 
 .teal-gradient-bg {
   background: linear-gradient(135deg, #1a9e9e 0%, #0f1e45 100%);
 }
 
+.paw-icon {
+  fill: theme("colors.pawcare.teal");
+  stroke: theme("colors.pawcare.navy");
+  stroke-width: 1;
+}

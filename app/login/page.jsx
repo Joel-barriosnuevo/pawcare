@@ -33,22 +33,17 @@ export default function LoginPage() {
     setError("")
 
     try {
-      // En una implementación real, aquí se haría la petición al backend
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
-      // Simulación de validación
-      if (formData.email === "admin@pawcare.com" && formData.password === "admin") {
-        router.push("/admin/dashboard")
-      } else if (formData.email === "provider@pawcare.com" && formData.password === "provider") {
+      // Permitir cualquier usuario/contraseña para pruebas
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      if (formData.email.includes("provider")) {
         router.push("/provider/dashboard")
-      } else if (formData.email === "client@pawcare.com" && formData.password === "client") {
-        router.push("/client/dashboard")
+      } else if (formData.email.includes("admin")) {
+        router.push("/admin/dashboard")
       } else {
-        throw new Error("Credenciales inválidas")
+        router.push("/client/dashboard")
       }
     } catch (error) {
-      console.error("Error al iniciar sesión:", error)
-      setError("Correo electrónico o contraseña incorrectos")
+      setError("Error inesperado. Intenta de nuevo.")
     } finally {
       setIsLoading(false)
     }

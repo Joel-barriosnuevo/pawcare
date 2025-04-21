@@ -13,27 +13,7 @@ export default function ClientAppointments() {
   const [statusFilter, setStatusFilter] = useState("all")
 
   // Datos simulados de citas
-  const appointments = [
-    {
-      id: 1,
-      service: "Consulta Veterinaria",
-      provider: "Dr. Juan Pérez",
-      date: "2025-04-15",
-      time: "10:00 AM",
-      status: "confirmed",
-      price: "$45.000",
-    },
-    {
-      id: 2,
-      service: "Peluquería Canina",
-      provider: "Estética Canina Feliz",
-      date: "2025-04-20",
-      time: "3:30 PM",
-      status: "pending",
-      price: "$35.000",
-    },
-    // Más citas...
-  ]
+  const appointments = []
 
   const getStatusBadgeColor = (status) => {
     const colors = {
@@ -83,42 +63,51 @@ export default function ClientAppointments() {
         </Select>
       </div>
 
-      <div className="grid gap-4">
-        {filteredAppointments.map((appointment) => (
-          <Card key={appointment.id}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xl font-bold">{appointment.service}</CardTitle>
-              <Badge className={getStatusBadgeColor(appointment.status)}>
-                {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
-              </Badge>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Proveedor:</span>
-                  <span className="font-medium">{appointment.provider}</span>
+      {appointments.length === 0 ? (
+        <div className="flex flex-col items-center py-12">
+          <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80" alt="No hay citas" className="w-48 h-48 object-cover rounded-lg mb-6 shadow" />
+          <h2 className="text-2xl font-bold mb-2">¡Aún no tienes citas!</h2>
+          <p className="text-muted-foreground mb-4">Agenda tu primera cita y comienza a cuidar de tu mascota con nosotros.</p>
+          <Button onClick={() => router.push("/services")}>Agendar cita</Button>
+        </div>
+      ) : (
+        <div className="grid gap-4">
+          {filteredAppointments.map((appointment) => (
+            <Card key={appointment.id}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-xl font-bold">{appointment.service}</CardTitle>
+                <Badge className={getStatusBadgeColor(appointment.status)}>
+                  {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                </Badge>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Proveedor:</span>
+                    <span className="font-medium">{appointment.provider}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Fecha:</span>
+                    <span className="font-medium">{appointment.date}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Hora:</span>
+                    <span className="font-medium">{appointment.time}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Precio:</span>
+                    <span className="font-medium">{appointment.price}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Fecha:</span>
-                  <span className="font-medium">{appointment.date}</span>
+                <div className="mt-4 flex gap-2 justify-end">
+                  <Button variant="outline">Reprogramar</Button>
+                  <Button variant="destructive">Cancelar</Button>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Hora:</span>
-                  <span className="font-medium">{appointment.time}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Precio:</span>
-                  <span className="font-medium">{appointment.price}</span>
-                </div>
-              </div>
-              <div className="mt-4 flex gap-2 justify-end">
-                <Button variant="outline">Reprogramar</Button>
-                <Button variant="destructive">Cancelar</Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

@@ -56,17 +56,14 @@ export default function RegisterPage() {
     setIsLoading(true)
 
     try {
-      // Simulación de registro
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
-      // Redireccionar según el tipo de usuario
+      // Permitir registro de cualquier usuario para pruebas
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       if (formData.userType === "provider") {
         router.push("/provider/dashboard")
       } else {
         router.push("/client/dashboard")
       }
     } catch (error) {
-      console.error("Error al registrarse:", error)
       setError("Error al crear la cuenta. Por favor, intenta nuevamente.")
     } finally {
       setIsLoading(false)

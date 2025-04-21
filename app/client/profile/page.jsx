@@ -11,31 +11,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function ClientProfile() {
   // Datos simulados del perfil
+  // El nombre y email deben venir del registro, el resto vacío
   const [profile, setProfile] = useState({
-    name: "Juan Pérez",
-    email: "juan@example.com",
-    phone: "+506 8888-8888",
-    address: "San José, Costa Rica",
-    pets: [
-      {
-        id: 1,
-        name: "Max",
-        type: "Perro",
-        breed: "Golden Retriever",
-        age: 3,
-        weight: "25",
-        notes: "Alérgico a ciertos tipos de alimentos",
-      },
-      {
-        id: 2,
-        name: "Luna",
-        type: "Gato",
-        breed: "Siamés",
-        age: 2,
-        weight: "4",
-        notes: "Muy tranquila, le gusta dormir",
-      },
-    ],
+    name: "Usuario Nuevo", // Reemplaza por el valor real del registro si está disponible
+    email: "usuario@email.com", // Reemplaza por el valor real del registro si está disponible
+    phone: "",
+    address: "",
+    pets: [],
   })
 
   const [newPet, setNewPet] = useState({
@@ -78,22 +60,25 @@ export default function ClientProfile() {
       <h1 className="text-3xl font-bold mb-6">Mi Perfil</h1>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
+        <Card className="shadow-xl border-0 bg-gradient-to-br from-white via-slate-50 to-secondary/10 animate-fade-in">
           <CardHeader>
-            <CardTitle>Información Personal</CardTitle>
+            <CardTitle className="flex items-center gap-2 text-2xl text-primary">
+              <img src="/logo.png" alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Información Personal
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleProfileUpdate} className="space-y-4">
               <div className="flex justify-center mb-6">
-                <div className="relative">
-                  <Avatar className="h-24 w-24">
+                <div className="relative group">
+                  <Avatar className="h-24 w-24 ring-4 ring-accent/30 transition-transform duration-300 group-hover:scale-105">
                     <AvatarImage src="/avatars/01.png" />
-                    <AvatarFallback>JP</AvatarFallback>
+                    <AvatarFallback>{profile.name?.[0] || "U"}</AvatarFallback>
                   </Avatar>
                   <Button
                     variant="secondary"
                     size="icon"
-                    className="absolute bottom-0 right-0 rounded-full"
+                    className="absolute bottom-0 right-0 rounded-full shadow-lg bg-accent hover:bg-accent/80 animate-fade-in"
+                    type="button"
                   >
                     <Camera className="h-4 w-4" />
                   </Button>
@@ -106,6 +91,8 @@ export default function ClientProfile() {
                   id="name"
                   value={profile.name}
                   onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+                  placeholder="Agrega tu nombre completo"
+                  className="transition-shadow focus:ring-2 focus:ring-accent"
                 />
               </div>
 
@@ -116,6 +103,8 @@ export default function ClientProfile() {
                   type="email"
                   value={profile.email}
                   onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                  placeholder="Agrega tu correo electrónico"
+                  className="transition-shadow focus:ring-2 focus:ring-accent"
                 />
               </div>
 
@@ -125,6 +114,8 @@ export default function ClientProfile() {
                   id="phone"
                   value={profile.phone}
                   onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
+                  placeholder="Agrega tu número de teléfono"
+                  className="transition-shadow focus:ring-2 focus:ring-accent"
                 />
               </div>
 
@@ -134,31 +125,40 @@ export default function ClientProfile() {
                   id="address"
                   value={profile.address}
                   onChange={(e) => setProfile({ ...profile, address: e.target.value })}
+                  placeholder="Agrega tu dirección"
+                  className="transition-shadow focus:ring-2 focus:ring-accent"
                 />
               </div>
 
-              <Button type="submit" className="w-full">
-                <Save className="mr-2 h-4 w-4" />
-                Guardar Cambios
+              <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90 text-white shadow-md transition-transform duration-200 hover:scale-105 animate-fade-in">
+                <Save className="h-4 w-4 mr-2" /> Guardar Cambios
               </Button>
             </form>
           </CardContent>
         </Card>
 
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Mis Mascotas</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+        <Card className="shadow-xl border-0 bg-gradient-to-br from-white via-slate-50 to-accent/10 animate-fade-in">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-2xl text-primary">
+              <img src="/logo.png" alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Mis Mascotas
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {profile.pets.length === 0 ? (
+              <div className="flex flex-col items-center py-12 animate-fade-in">
+                <img src="https://images.unsplash.com/photo-1518715308788-30057527ade5?auto=format&fit=crop&w=400&q=80" alt="No hay mascotas" className="w-48 h-48 object-cover rounded-lg mb-6 shadow-lg" />
+                <h2 className="text-2xl font-bold mb-2 text-primary">¡Aún no tienes mascotas!</h2>
+                <p className="text-muted-foreground mb-4">Agrega tu primera mascota para empezar a reservar servicios.</p>
+              </div>
+            ) : (
+              <div className="space-y-4 animate-fade-in">
                 {profile.pets.map((pet) => (
-                  <Card key={pet.id}>
-                    <CardContent className="pt-6">
+                  <Card key={pet.id} className="bg-muted shadow border-0 hover:scale-[1.01] transition-transform duration-200">
+                    <CardContent>
                       <div className="grid gap-2">
                         <div className="flex justify-between">
-                          <span className="font-medium">{pet.name}</span>
-                          <Button variant="ghost" size="sm">
+                          <span className="font-medium text-primary">{pet.name}</span>
+                          <Button variant="ghost" size="sm" className="hover:text-accent">
                             Editar
                           </Button>
                         </div>
@@ -181,81 +181,89 @@ export default function ClientProfile() {
                   </Card>
                 ))}
               </div>
-            </CardContent>
-          </Card>
+            )}
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Agregar Nueva Mascota</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleAddPet} className="space-y-4">
+        <Card className="shadow-xl border-0 bg-gradient-to-br from-white via-slate-50 to-accent/10 animate-fade-in">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-2xl text-primary">
+              <img src="/logo.png" alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Agregar Nueva Mascota
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleAddPet} className="space-y-4 animate-fade-in">
+              <div className="grid gap-2">
+                <Label htmlFor="pet-name">Nombre</Label>
+                <Input
+                  id="pet-name"
+                  value={newPet.name}
+                  onChange={(e) => setNewPet({ ...newPet, name: e.target.value })}
+                  className="transition-shadow focus:ring-2 focus:ring-accent"
+                />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="pet-type">Tipo de mascota</Label>
+                <Input
+                  id="pet-type"
+                  value={newPet.type}
+                  onChange={(e) => setNewPet({ ...newPet, type: e.target.value })}
+                  placeholder="Ej: Perro, Gato, etc."
+                  className="transition-shadow focus:ring-2 focus:ring-accent"
+                />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="pet-breed">Raza</Label>
+                <Input
+                  id="pet-breed"
+                  value={newPet.breed}
+                  onChange={(e) => setNewPet({ ...newPet, breed: e.target.value })}
+                  className="transition-shadow focus:ring-2 focus:ring-accent"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="pet-name">Nombre</Label>
+                  <Label htmlFor="pet-age">Edad (años)</Label>
                   <Input
-                    id="pet-name"
-                    value={newPet.name}
-                    onChange={(e) => setNewPet({ ...newPet, name: e.target.value })}
+                    id="pet-age"
+                    type="number"
+                    value={newPet.age}
+                    onChange={(e) => setNewPet({ ...newPet, age: e.target.value })}
+                    className="transition-shadow focus:ring-2 focus:ring-accent"
                   />
                 </div>
-
                 <div className="grid gap-2">
-                  <Label htmlFor="pet-type">Tipo de mascota</Label>
+                  <Label htmlFor="pet-weight">Peso (kg)</Label>
                   <Input
-                    id="pet-type"
-                    value={newPet.type}
-                    onChange={(e) => setNewPet({ ...newPet, type: e.target.value })}
-                    placeholder="Ej: Perro, Gato, etc."
+                    id="pet-weight"
+                    type="number"
+                    value={newPet.weight}
+                    onChange={(e) => setNewPet({ ...newPet, weight: e.target.value })}
+                    className="transition-shadow focus:ring-2 focus:ring-accent"
                   />
                 </div>
+              </div>
 
-                <div className="grid gap-2">
-                  <Label htmlFor="pet-breed">Raza</Label>
-                  <Input
-                    id="pet-breed"
-                    value={newPet.breed}
-                    onChange={(e) => setNewPet({ ...newPet, breed: e.target.value })}
-                  />
-                </div>
+              <div className="grid gap-2">
+                <Label htmlFor="pet-notes">Notas adicionales</Label>
+                <Textarea
+                  id="pet-notes"
+                  value={newPet.notes}
+                  onChange={(e) => setNewPet({ ...newPet, notes: e.target.value })}
+                  placeholder="Alergias, condiciones especiales, etc."
+                  className="transition-shadow focus:ring-2 focus:ring-accent"
+                />
+              </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="pet-age">Edad (años)</Label>
-                    <Input
-                      id="pet-age"
-                      type="number"
-                      value={newPet.age}
-                      onChange={(e) => setNewPet({ ...newPet, age: e.target.value })}
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="pet-weight">Peso (kg)</Label>
-                    <Input
-                      id="pet-weight"
-                      type="number"
-                      value={newPet.weight}
-                      onChange={(e) => setNewPet({ ...newPet, weight: e.target.value })}
-                    />
-                  </div>
-                </div>
-
-                <div className="grid gap-2">
-                  <Label htmlFor="pet-notes">Notas adicionales</Label>
-                  <Textarea
-                    id="pet-notes"
-                    value={newPet.notes}
-                    onChange={(e) => setNewPet({ ...newPet, notes: e.target.value })}
-                    placeholder="Alergias, condiciones especiales, etc."
-                  />
-                </div>
-
-                <Button type="submit" className="w-full">
-                  Agregar Mascota
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
+              <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-white shadow-md transition-transform duration-200 hover:scale-105 animate-fade-in">
+                Agregar Mascota
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

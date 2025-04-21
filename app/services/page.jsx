@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link"
 import { ArrowLeft, Search, Star } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -17,7 +20,7 @@ export default function ServicesPage() {
       rating: 4.8,
       reviews: 124,
       price: "$45.000",
-      image: "/placeholder.svg?height=200&width=300",
+      image: "/consulta-veterinaria-general.jpg", // Imagen veterinaria realista
       description:
         "Evaluación completa del estado de salud de tu mascota, incluyendo revisión física y recomendaciones de cuidado.",
     },
@@ -27,53 +30,36 @@ export default function ServicesPage() {
       provider: "Estética Canina Feliz",
       rating: 4.7,
       reviews: 98,
-      price: "$35.000",
-      image: "/placeholder.svg?height=200&width=300",
+      price: "$30.000",
+      image: "/peluqueria-canina-completa.png", // Imagen grooming realista
       description:
-        "Incluye baño con shampoo especial, secado, corte de pelo según raza, corte de uñas y limpieza de oídos.",
+        "Baño, corte de pelo y uñas, limpieza de oídos y spa para consentir a tu perro.",
     },
     {
       id: 3,
-      name: "Paseo Premium (1 hora)",
-      provider: "PaseaDog",
+      name: "Paseo de Perros",
+      provider: "Paseadores Felices",
       rating: 4.9,
-      reviews: 56,
-      price: "$20.000",
-      image: "/placeholder.svg?height=200&width=300",
-      description: "Paseo personalizado de una hora con cuidador certificado. Incluye recogida y entrega a domicilio.",
+      reviews: 150,
+      price: "$15.000",
+      image: "/paseo-de-perros.jpg", // Imagen paseo realista
+      description:
+        "Paseos diarios o programados para perros de todas las razas y tamaños.",
     },
     {
       id: 4,
-      name: "Entrenamiento Básico",
-      provider: "Canine Academy",
+      name: "Guardería de Mascotas",
+      provider: "Pet Hotel PawCare",
       rating: 4.6,
-      reviews: 42,
-      price: "$50.000",
-      image: "/placeholder.svg?height=200&width=300",
+      reviews: 76,
+      price: "$60.000",
+      image: "/guarderia-de-mascotas.png", // Imagen guardería realista
       description:
-        "Sesión de entrenamiento para enseñar comandos básicos como sentarse, quedarse y venir cuando se le llama.",
-    },
-    {
-      id: 5,
-      name: "Hospedaje por Día",
-      provider: "Casa Mascota",
-      rating: 4.8,
-      reviews: 75,
-      price: "$30.000",
-      image: "/placeholder.svg?height=200&width=300",
-      description: "Alojamiento en hogar verificado con cuidados personalizados, alimentación y paseos incluidos.",
-    },
-    {
-      id: 6,
-      name: "Vacunación",
-      provider: "Clínica Veterinaria PetHealth",
-      rating: 4.9,
-      reviews: 112,
-      price: "$35.000",
-      image: "/placeholder.svg?height=200&width=300",
-      description: "Aplicación de vacunas esenciales para mantener a tu mascota protegida contra enfermedades comunes.",
+        "Cuidado diurno o por noches para tu mascota en un ambiente seguro y divertido.",
     },
   ]
+
+  const router = useRouter()
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -108,8 +94,7 @@ export default function ServicesPage() {
                     <SelectItem value="veterinary">Veterinaria</SelectItem>
                     <SelectItem value="grooming">Peluquería</SelectItem>
                     <SelectItem value="walking">Paseos</SelectItem>
-                    <SelectItem value="training">Entrenamiento</SelectItem>
-                    <SelectItem value="boarding">Hospedaje</SelectItem>
+                    <SelectItem value="boarding">Guardería</SelectItem>
                   </SelectContent>
                 </Select>
                 <Select defaultValue="rating">
@@ -133,7 +118,7 @@ export default function ServicesPage() {
                 <Card key={service.id} className="overflow-hidden">
                   <div className="aspect-video w-full overflow-hidden">
                     <img
-                      src={service.image || "/placeholder.svg"}
+                      src={service.image}
                       alt={service.name}
                       className="h-full w-full object-cover transition-transform hover:scale-105"
                     />
@@ -152,8 +137,11 @@ export default function ServicesPage() {
                     </div>
                   </CardContent>
                   <CardFooter className="p-4 pt-0">
-                    <Button asChild className="w-full">
-                      <Link href={`/services/${service.id}`}>Reservar</Link>
+                    <Button
+                      onClick={() => router.push(`/services-detail/${service.id}`)}
+                      className="bg-secondary hover:bg-secondary/90 text-white shadow-md transition-transform duration-200 hover:scale-105"
+                    >
+                      Reservar
                     </Button>
                   </CardFooter>
                 </Card>
@@ -164,10 +152,9 @@ export default function ServicesPage() {
       </main>
       <footer className="border-t bg-muted/40">
         <div className="container flex flex-col gap-2 py-4 text-center text-sm text-muted-foreground md:py-6">
-          <p>© 2025 PawCare. Todos los derechos reservados.</p>
+          <p> 2025 PawCare. Todos los derechos reservados.</p>
         </div>
       </footer>
     </div>
   )
 }
-

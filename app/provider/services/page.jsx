@@ -18,48 +18,7 @@ export default function ProviderServices() {
   const [selectedCategory, setSelectedCategory] = useState("all")
 
   // Datos simulados de servicios
-  const services = [
-    {
-      id: 1,
-      name: "Consulta Veterinaria General",
-      description: "Evaluación general del estado de salud de tu mascota",
-      category: "Veterinaria",
-      price: "$45.000",
-      duration: "30 minutos",
-      bookings: 24,
-      status: "activo"
-    },
-    {
-      id: 2,
-      name: "Vacunación",
-      description: "Servicio de vacunación para perros y gatos",
-      category: "Veterinaria",
-      price: "$35.000",
-      duration: "15 minutos",
-      bookings: 18,
-      status: "activo"
-    },
-    {
-      id: 3,
-      name: "Peluquería Canina",
-      description: "Servicio completo de peluquería para perros",
-      category: "Estética",
-      price: "$40.000",
-      duration: "60 minutos",
-      bookings: 15,
-      status: "activo"
-    },
-    {
-      id: 4,
-      name: "Paseo Canino",
-      description: "Paseos supervisados para perros",
-      category: "Cuidado",
-      price: "$25.000",
-      duration: "45 minutos",
-      bookings: 30,
-      status: "inactivo"
-    }
-  ]
+  const services = []
 
   const filteredServices = services.filter(service => {
     const matchesSearch = 
@@ -194,128 +153,137 @@ export default function ProviderServices() {
         </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Servicios ({filteredServices.length})</CardTitle>
-          <CardDescription>
-            Lista de todos tus servicios
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {filteredServices.map((service) => (
-            <div
-              key={service.id}
-              className="flex flex-col space-y-4 rounded-lg border p-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0"
-            >
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <Store className="h-4 w-4 text-muted-foreground" />
-                  <p className="font-medium">{service.name}</p>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {service.description}
-                </p>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-4 w-4" />
-                    {service.duration}
+      {filteredServices.length === 0 ? (
+        <div className="flex flex-col items-center py-12">
+          <img src="https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=400&q=80" alt="No hay servicios" className="w-48 h-48 object-cover rounded-lg mb-6 shadow" />
+          <h2 className="text-2xl font-bold mb-2">¡Aún no tienes servicios!</h2>
+          <p className="text-muted-foreground mb-4">Crea tu primer servicio para que los clientes puedan reservarte.</p>
+          <Button onClick={() => {/* abrir modal o redirigir a crear servicio */}}>Crear servicio</Button>
+        </div>
+      ) : (
+        <Card>
+          <CardHeader>
+            <CardTitle>Servicios ({filteredServices.length})</CardTitle>
+            <CardDescription>
+              Lista de todos tus servicios
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {filteredServices.map((service) => (
+              <div
+                key={service.id}
+                className="flex flex-col space-y-4 rounded-lg border p-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0"
+              >
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <Store className="h-4 w-4 text-muted-foreground" />
+                    <p className="font-medium">{service.name}</p>
                   </div>
-                  <div>
-                    {service.bookings} reservas
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="text-right">
-                  <p className="font-medium">{service.price}</p>
-                  <span className={`inline-block rounded-full px-2 py-0.5 text-xs ${
-                    service.status === "activo" 
-                      ? "bg-green-100 text-green-600" 
-                      : "bg-red-100 text-red-600"
-                  }`}>
-                    {service.status}
-                  </span>
-                </div>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="outline">Editar</Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Editar Servicio</DialogTitle>
-                      <DialogDescription>
-                        Modifica los detalles del servicio
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                      <div className="grid gap-2">
-                        <Label htmlFor="edit-name">Nombre del servicio</Label>
-                        <Input id="edit-name" defaultValue={service.name} />
-                      </div>
-                      <div className="grid gap-2">
-                        <Label htmlFor="edit-description">Descripción</Label>
-                        <Textarea
-                          id="edit-description"
-                          defaultValue={service.description}
-                        />
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="grid gap-2">
-                          <Label htmlFor="edit-category">Categoría</Label>
-                          <Select defaultValue={service.category.toLowerCase()}>
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="veterinaria">Veterinaria</SelectItem>
-                              <SelectItem value="estetica">Estética</SelectItem>
-                              <SelectItem value="cuidado">Cuidado</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="grid gap-2">
-                          <Label htmlFor="edit-duration">Duración</Label>
-                          <Select defaultValue="30">
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="15">15 minutos</SelectItem>
-                              <SelectItem value="30">30 minutos</SelectItem>
-                              <SelectItem value="45">45 minutos</SelectItem>
-                              <SelectItem value="60">1 hora</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="grid gap-2">
-                          <Label htmlFor="edit-price">Precio</Label>
-                          <Input id="edit-price" defaultValue={service.price} />
-                        </div>
-                        <div className="grid gap-2">
-                          <Label htmlFor="edit-status">Estado</Label>
-                          <Select defaultValue={service.status}>
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="activo">Activo</SelectItem>
-                              <SelectItem value="inactivo">Inactivo</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </div>
+                  <p className="text-sm text-muted-foreground">
+                    {service.description}
+                  </p>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      {service.duration}
                     </div>
-                    <DialogFooter>
-                      <Button variant="outline">Cancelar</Button>
-                      <Button>Guardar Cambios</Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
+                    <div>
+                      {service.bookings} reservas
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    <p className="font-medium">{service.price}</p>
+                    <span className={`inline-block rounded-full px-2 py-0.5 text-xs ${
+                      service.status === "activo" 
+                        ? "bg-green-100 text-green-600" 
+                        : "bg-red-100 text-red-600"
+                    }`}>
+                      {service.status}
+                    </span>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline">Editar</Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Editar Servicio</DialogTitle>
+                        <DialogDescription>
+                          Modifica los detalles del servicio
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="grid gap-4 py-4">
+                        <div className="grid gap-2">
+                          <Label htmlFor="edit-name">Nombre del servicio</Label>
+                          <Input id="edit-name" defaultValue={service.name} />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="edit-description">Descripción</Label>
+                          <Textarea
+                            id="edit-description"
+                            defaultValue={service.description}
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="grid gap-2">
+                            <Label htmlFor="edit-category">Categoría</Label>
+                            <Select defaultValue={service.category.toLowerCase()}>
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="veterinaria">Veterinaria</SelectItem>
+                                <SelectItem value="estetica">Estética</SelectItem>
+                                <SelectItem value="cuidado">Cuidado</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="grid gap-2">
+                            <Label htmlFor="edit-duration">Duración</Label>
+                            <Select defaultValue="30">
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="15">15 minutos</SelectItem>
+                                <SelectItem value="30">30 minutos</SelectItem>
+                                <SelectItem value="45">45 minutos</SelectItem>
+                                <SelectItem value="60">1 hora</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="grid gap-2">
+                            <Label htmlFor="edit-price">Precio</Label>
+                            <Input id="edit-price" defaultValue={service.price} />
+                          </div>
+                          <div className="grid gap-2">
+                            <Label htmlFor="edit-status">Estado</Label>
+                            <Select defaultValue={service.status}>
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="activo">Activo</SelectItem>
+                                <SelectItem value="inactivo">Inactivo</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <Button variant="outline">Cancelar</Button>
+                        <Button>Guardar Cambios</Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                </div>
               </div>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
+            ))}
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }

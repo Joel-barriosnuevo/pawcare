@@ -43,120 +43,11 @@ export default function ClientDashboard() {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
 
   // Datos simulados de reservas
-  const upcomingReservations = [
-    {
-      id: 1,
-      service: "Consulta Veterinaria",
-      provider: "Dr. Juan Pérez",
-      date: "15 de abril, 2025",
-      time: "10:00 AM",
-      status: "confirmada",
-      price: "$45.000",
-      petName: "Max"
-    },
-    {
-      id: 2,
-      service: "Peluquería Canina",
-      provider: "Estética Canina Feliz",
-      date: "20 de abril, 2025",
-      time: "3:30 PM",
-      status: "pendiente",
-      price: "$35.000",
-      petName: "Luna"
-    },
-  ]
-
-  const pastReservations = [
-    {
-      id: 3,
-      service: "Paseo Canino",
-      provider: "Carlos Rodríguez",
-      date: "5 de marzo, 2025",
-      time: "4:00 PM",
-      status: "completada",
-      price: "$25.000",
-      petName: "Max"
-    },
-    {
-      id: 4,
-      service: "Consulta Veterinaria",
-      provider: "Dra. María López",
-      date: "20 de febrero, 2025",
-      time: "11:30 AM",
-      status: "completada",
-      price: "$50.000",
-      petName: "Luna"
-    },
-  ]
-
-  // Datos simulados de servicios recomendados
-  const recommendedServices = [
-    {
-      id: 1,
-      name: "Consulta Veterinaria General",
-      provider: "Clínica Veterinaria PetHealth",
-      rating: 4.8,
-      price: "$40.000 - $60.000",
-      image: "/services/vet-consultation.jpg",
-      description: "Chequeo completo de salud para tu mascota"
-    },
-    {
-      id: 2,
-      name: "Peluquería Completa",
-      provider: "Estética Canina Feliz",
-      rating: 4.7,
-      price: "$35.000 - $50.000",
-      image: "/services/pet-grooming.jpg",
-      description: "Incluye baño, corte y peinado"
-    },
-    {
-      id: 3,
-      name: "Paseo Premium (1 hora)",
-      provider: "PaseaDog",
-      rating: 4.9,
-      price: "$20.000",
-      image: "/services/dog-walking.jpg",
-      description: "Paseos personalizados con entrenadores certificados"
-    },
-  ]
-
-  // Datos simulados de mascotas
-  const pets = [
-    {
-      id: 1,
-      name: "Max",
-      type: "Perro",
-      breed: "Golden Retriever",
-      age: 3,
-      nextAppointment: "15 de abril, 2025",
-      image: "/pets/max.jpg"
-    },
-    {
-      id: 2,
-      name: "Luna",
-      type: "Gato",
-      breed: "Siamés",
-      age: 2,
-      nextAppointment: "20 de abril, 2025",
-      image: "/pets/luna.jpg"
-    }
-  ]
-
-  // Datos simulados de notificaciones
-  const notifications = [
-    {
-      id: 1,
-      type: "reminder",
-      message: "Recordatorio: Consulta veterinaria mañana a las 10:00 AM",
-      date: "Hace 1 hora"
-    },
-    {
-      id: 2,
-      type: "promotion",
-      message: "¡20% de descuento en servicios de peluquería esta semana!",
-      date: "Hace 2 horas"
-    }
-  ]
+  const upcomingReservations = [];
+  const pastReservations = [];
+  const recommendedServices = [];
+  const pets = [];
+  const notifications = [];
 
   const handleLogout = () => {
     // Aquí iría la lógica real de cierre de sesión
@@ -366,297 +257,244 @@ export default function ClientDashboard() {
       </header>
 
       {/* Contenido principal */}
-      <main className="flex-1 grid gap-4 p-4 md:gap-8 md:p-6">
-        {/* Stats Cards */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Próximas Citas</CardTitle>
-              <Calendar className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{upcomingReservations.length}</div>
-              <Link
-                href="/client/appointments"
-                className="text-xs text-muted-foreground hover:underline"
-              >
-                Ver todas las citas
-              </Link>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Mascotas</CardTitle>
-              <PawIcon className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{pets.length}</div>
-              <Button
-                variant="link"
-                className="h-auto p-0 text-xs text-muted-foreground"
-                onClick={handleAddPet}
-              >
-                Agregar mascota
-              </Button>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Servicios Favoritos</CardTitle>
-              <Heart className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">5</div>
-              <Link
-                href="/client/favorites"
-                className="text-xs text-muted-foreground hover:underline"
-              >
-                Ver favoritos
-              </Link>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Reseñas Dadas</CardTitle>
-              <MessageCircle className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">8</div>
-              <Link
-                href="/client/reviews"
-                className="text-xs text-muted-foreground hover:underline"
-              >
-                Ver reseñas
-              </Link>
-            </CardContent>
-          </Card>
-        </div>
+      <main className="flex-1 container py-8">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-6">
+          {/* Sección de reservas próximas */}
+          <div className="lg:col-span-3">
+            <Card>
+              <CardHeader>
+                <CardTitle>Próximas Citas</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {upcomingReservations.length === 0 ? (
+                  <div className="flex flex-col items-center py-12">
+                    <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80" alt="No hay citas" className="w-48 h-48 object-cover rounded-lg mb-6 shadow" />
+                    <h2 className="text-2xl font-bold mb-2">¡Aún no tienes citas!</h2>
+                    <p className="text-muted-foreground mb-4">Agenda tu primera cita y comienza a cuidar de tu mascota con nosotros.</p>
+                    <Button onClick={() => router.push("/services")}>Agendar cita</Button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {upcomingReservations.map((reservation) => (
+                      <div
+                        key={reservation.id}
+                        className="flex items-center justify-between space-x-4"
+                      >
+                        <div className="flex items-center space-x-4">
+                          <div>
+                            <p className="text-sm font-medium leading-none">
+                              {reservation.service}
+                            </p>
+                            <Button
+                              variant="link"
+                              className="h-auto p-0 text-sm text-muted-foreground"
+                              onClick={() => handleViewProviderProfile(reservation.provider)}
+                            >
+                              {reservation.provider}
+                            </Button>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-4">
+                          <div className="text-right">
+                            <p className="text-sm font-medium leading-none">
+                              {reservation.date}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {reservation.time}
+                            </p>
+                          </div>
+                          <Badge variant={reservation.status === "confirmada" ? "success" : "warning"}>
+                            {reservation.status}
+                          </Badge>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon">
+                                <Settings className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => handleRescheduleAppointment(reservation.id)}>
+                                Reprogramar
+                              </DropdownMenuItem>
+                              <DropdownMenuItem 
+                                onClick={() => handleCancelAppointment(reservation.id)}
+                                className="text-destructive"
+                              >
+                                Cancelar
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
 
-        {/* Appointments and Pets */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <Card className="lg:col-span-4">
-            <CardHeader>
-              <CardTitle>Próximas Citas</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {upcomingReservations.map((reservation) => (
-                  <div
-                    key={reservation.id}
-                    className="flex items-center justify-between space-x-4"
-                  >
-                    <div className="flex items-center space-x-4">
-                      <div>
-                        <p className="text-sm font-medium leading-none">
-                          {reservation.service}
-                        </p>
-                        <Button
-                          variant="link"
-                          className="h-auto p-0 text-sm text-muted-foreground"
-                          onClick={() => handleViewProviderProfile(reservation.provider)}
+          {/* Sección de servicios recomendados */}
+          <div className="lg:col-span-3">
+            <Card>
+              <CardHeader>
+                <CardTitle>Servicios Recomendados</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {recommendedServices.length === 0 ? (
+                  <div className="flex flex-col items-center py-12">
+                    <img src="https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=400&q=80" alt="No hay servicios" className="w-48 h-48 object-cover rounded-lg mb-6 shadow" />
+                    <h2 className="text-2xl font-bold mb-2">¡Aún no tienes servicios recomendados!</h2>
+                    <p className="text-muted-foreground mb-4">Explora los servicios disponibles y añade tus favoritos.</p>
+                    <Button onClick={() => router.push("/services")}>Ver servicios</Button>
+                  </div>
+                ) : (
+                  <div className="grid gap-4 md:grid-cols-2">
+                    {recommendedServices.map((service) => (
+                      <Card key={service.id}>
+                        <CardContent className="p-0">
+                          <div className="relative h-48">
+                            <img
+                              src={service.image}
+                              alt={service.name}
+                              className="h-full w-full object-cover"
+                            />
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="absolute right-2 top-2 bg-white/80 hover:bg-white"
+                              onClick={() => handleAddToFavorites(service.id)}
+                            >
+                              <Heart className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          <div className="p-4">
+                            <h3 className="font-semibold">{service.name}</h3>
+                            <Button
+                              variant="link"
+                              className="h-auto p-0 text-sm text-muted-foreground"
+                              onClick={() => handleViewProviderProfile(service.provider)}
+                            >
+                              {service.provider}
+                            </Button>
+                            <div className="mt-2 flex items-center">
+                              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                              <span className="ml-1 text-sm">{service.rating}</span>
+                            </div>
+                            <p className="mt-2 font-medium">{service.price}</p>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                              {service.description}
+                            </p>
+                            <Button 
+                              className="mt-4 w-full"
+                              onClick={() => handleBookService(service.id)}
+                            >
+                              Reservar
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Sección de mascotas */}
+          <div className="lg:col-span-3">
+            <Card>
+              <CardHeader>
+                <CardTitle>Mis Mascotas</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {pets.length === 0 ? (
+                  <div className="flex flex-col items-center py-12">
+                    <img src="https://images.unsplash.com/photo-1518715308788-30057527ade5?auto=format&fit=crop&w=400&q=80" alt="No hay mascotas" className="w-48 h-48 object-cover rounded-lg mb-6 shadow" />
+                    <h2 className="text-2xl font-bold mb-2">¡Aún no tienes mascotas!</h2>
+                    <p className="text-muted-foreground mb-4">Agrega tu primera mascota para empezar a reservar servicios.</p>
+                    <Button onClick={() => router.push("/client/profile")}>Agregar mascota</Button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {pets.map((pet) => (
+                      <div
+                        key={pet.id}
+                        className="flex items-center space-x-4"
+                      >
+                        <Avatar className="h-12 w-12">
+                          <AvatarImage src={pet.image} alt={pet.name} />
+                          <AvatarFallback>{pet.name[0]}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 space-y-1">
+                          <p className="text-sm font-medium leading-none">{pet.name}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {pet.breed} • {pet.age} años
+                          </p>
+                        </div>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => handleViewPetProfile(pet.id)}
                         >
-                          {reservation.provider}
+                          Ver perfil
                         </Button>
                       </div>
-                    </div>
-                    <div className="flex items-center space-x-4">
-                      <div className="text-right">
-                        <p className="text-sm font-medium leading-none">
-                          {reservation.date}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {reservation.time}
-                        </p>
-                      </div>
-                      <Badge variant={reservation.status === "confirmada" ? "success" : "warning"}>
-                        {reservation.status}
-                      </Badge>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <Settings className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleRescheduleAppointment(reservation.id)}>
-                            Reprogramar
-                          </DropdownMenuItem>
-                          <DropdownMenuItem 
-                            onClick={() => handleCancelAppointment(reservation.id)}
-                            className="text-destructive"
-                          >
-                            Cancelar
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <Button 
-                className="mt-4 w-full" 
-                variant="outline"
-                onClick={() => router.push("/client/appointments")}
-              >
-                Ver todas las citas
-              </Button>
-            </CardContent>
-          </Card>
+                )}
+              </CardContent>
+            </Card>
+          </div>
 
-          <Card className="lg:col-span-3">
-            <CardHeader>
-              <CardTitle>Mis Mascotas</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {pets.map((pet) => (
-                  <div
-                    key={pet.id}
-                    className="flex items-center space-x-4"
-                  >
-                    <Avatar className="h-12 w-12">
-                      <AvatarImage src={pet.image} alt={pet.name} />
-                      <AvatarFallback>{pet.name[0]}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 space-y-1">
-                      <p className="text-sm font-medium leading-none">{pet.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {pet.breed} • {pet.age} años
-                      </p>
-                    </div>
-                    <Button 
-                      variant="ghost" 
-                      size="sm"
-                      onClick={() => handleViewPetProfile(pet.id)}
-                    >
-                      Ver perfil
-                    </Button>
+          {/* Sección de notificaciones */}
+          <div className="lg:col-span-3">
+            <Card>
+              <CardHeader>
+                <CardTitle>Notificaciones</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {notifications.length === 0 ? (
+                  <div className="flex flex-col items-center py-12">
+                    <img src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&fit=crop&w=400&q=80" alt="No hay notificaciones" className="w-48 h-48 object-cover rounded-lg mb-6 shadow" />
+                    <h2 className="text-2xl font-bold mb-2">¡Sin notificaciones!</h2>
+                    <p className="text-muted-foreground mb-4">Aquí verás novedades importantes sobre tus servicios y reservas.</p>
                   </div>
-                ))}
-              </div>
-              <Button 
-                className="mt-4 w-full" 
-                variant="outline"
-                onClick={handleAddPet}
-              >
-                Agregar mascota
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Services and Notifications */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <Card className="lg:col-span-4">
-            <CardHeader>
-              <CardTitle>Servicios Recomendados</CardTitle>
-              <CardDescription>
-                Basado en tus preferencias y mascotas
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 md:grid-cols-2">
-                {recommendedServices.map((service) => (
-                  <Card key={service.id}>
-                    <CardContent className="p-0">
-                      <div className="relative h-48">
-                        <img
-                          src={service.image}
-                          alt={service.name}
-                          className="h-full w-full object-cover"
-                        />
+                ) : (
+                  <div className="space-y-4">
+                    {notifications.map((notification) => (
+                      <div
+                        key={notification.id}
+                        className="flex items-start space-x-4"
+                      >
+                        <div className="rounded-full bg-primary/20 p-2">
+                          {notification.type === "reminder" ? (
+                            <Clock className="h-4 w-4 text-primary" />
+                          ) : (
+                            <Star className="h-4 w-4 text-primary" />
+                          )}
+                        </div>
+                        <div className="flex-1 space-y-1">
+                          <p className="text-sm font-medium leading-none">
+                            {notification.message}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {notification.date}
+                          </p>
+                        </div>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="absolute right-2 top-2 bg-white/80 hover:bg-white"
-                          onClick={() => handleAddToFavorites(service.id)}
+                          onClick={() => handleDismissNotification(notification.id)}
                         >
-                          <Heart className="h-4 w-4" />
+                          <X className="h-4 w-4" />
                         </Button>
                       </div>
-                      <div className="p-4">
-                        <h3 className="font-semibold">{service.name}</h3>
-                        <Button
-                          variant="link"
-                          className="h-auto p-0 text-sm text-muted-foreground"
-                          onClick={() => handleViewProviderProfile(service.provider)}
-                        >
-                          {service.provider}
-                        </Button>
-                        <div className="mt-2 flex items-center">
-                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                          <span className="ml-1 text-sm">{service.rating}</span>
-                        </div>
-                        <p className="mt-2 font-medium">{service.price}</p>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                          {service.description}
-                        </p>
-                        <Button 
-                          className="mt-4 w-full"
-                          onClick={() => handleBookService(service.id)}
-                        >
-                          Reservar
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              <Button 
-                className="mt-4 w-full" 
-                variant="outline"
-                onClick={() => router.push("/services")}
-              >
-                Ver más servicios
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="lg:col-span-3">
-            <CardHeader>
-              <CardTitle>Notificaciones</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {notifications.map((notification) => (
-                  <div
-                    key={notification.id}
-                    className="flex items-start space-x-4"
-                  >
-                    <div className="rounded-full bg-primary/20 p-2">
-                      {notification.type === "reminder" ? (
-                        <Clock className="h-4 w-4 text-primary" />
-                      ) : (
-                        <Star className="h-4 w-4 text-primary" />
-                      )}
-                    </div>
-                    <div className="flex-1 space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {notification.message}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {notification.date}
-                      </p>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleDismissNotification(notification.id)}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <Button 
-                className="mt-4 w-full" 
-                variant="outline"
-                onClick={() => setNotificationsOpen(true)}
-              >
-                Ver todas las notificaciones
-              </Button>
-            </CardContent>
-          </Card>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </main>
     </div>
