@@ -66,6 +66,18 @@ export default function ServicesPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <header className="border-b">
+        <div className="container flex h-16 items-center px-4 md:px-6">
+          <Link href="/" className="flex items-center gap-2">
+            <img
+              src={`${baseUrl}/logo.png`}
+              alt="Logo PawCare"
+              className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover"
+            />
+            <span className="text-lg font-semibold">PawCare</span>
+          </Link>
+        </div>
+      </header>
       <main className="flex-1 p-4 md:p-6">
         <div className="container max-w-screen-xl">
           <div className="flex flex-col gap-4 md:gap-8">

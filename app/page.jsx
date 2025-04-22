@@ -5,6 +5,9 @@ import { Logo } from "@/components/logo"
 import { PawIcon } from "@/components/ui/paw-icon"
 
 export default function Home() {
+  // Define baseUrl para imágenes locales (ajusta si tu subcarpeta de deploy es distinta)
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
@@ -84,7 +87,7 @@ export default function Home() {
                   alt="Hero"
                   className="relative mx-auto aspect-square overflow-hidden rounded-full object-cover object-center shadow-xl border-4 border-white animate-fade-in"
                   height="400"
-                  src="/logo.png"
+                  src={`${baseUrl}/logo.png`}
                   width="400"
                 />
               </div>
