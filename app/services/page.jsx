@@ -11,9 +11,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator"
 
 export default function ServicesPage() {
-  // Utilidad para obtener la URL base para imágenes locales (soporta subcarpetas de deploy)
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_PATH || "";
-
   // Datos simulados de servicios
   const services = [
     {
@@ -23,7 +20,7 @@ export default function ServicesPage() {
       rating: 4.8,
       reviews: 124,
       price: "$45.000",
-      image: `${baseUrl}/consulta-veterinaria-general.jpg`,
+      image: "/consulta-veterinaria-general.jpg",
       description:
         "Evaluación completa del estado de salud de tu mascota, incluyendo revisión física y recomendaciones de cuidado.",
     },
@@ -34,7 +31,7 @@ export default function ServicesPage() {
       rating: 4.7,
       reviews: 98,
       price: "$30.000",
-      image: `${baseUrl}/peluqueria-canina-completa.png`,
+      image: "/peluqueria-canina-completa.png",
       description:
         "Baño, corte de pelo y uñas, limpieza de oídos y spa para consentir a tu perro.",
     },
@@ -45,7 +42,7 @@ export default function ServicesPage() {
       rating: 4.9,
       reviews: 150,
       price: "$15.000",
-      image: `${baseUrl}/paseo-de-perros.jpg`,
+      image: "/paseo-de-perros.jpg",
       description:
         "Paseos diarios o programados para perros de todas las razas y tamaños.",
     },
@@ -56,7 +53,7 @@ export default function ServicesPage() {
       rating: 4.6,
       reviews: 76,
       price: "$60.000",
-      image: `${baseUrl}/guarderia-de-mascotas.png`,
+      image: "/guarderia-de-mascotas.png",
       description:
         "Cuidado diurno o por noches para tu mascota en un ambiente seguro y divertido.",
     },
@@ -70,7 +67,7 @@ export default function ServicesPage() {
         <div className="container flex h-16 items-center px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2">
             <img
-              src={`${baseUrl}/logo.png`}
+              src="/logo.png"
               alt="Logo PawCare"
               className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover"
             />
@@ -125,7 +122,7 @@ export default function ServicesPage() {
                 <Card key={service.id} className="overflow-hidden">
                   <div className="aspect-video w-full overflow-hidden">
                     <img
-                      src={service.image.startsWith('http') ? service.image : `${baseUrl}${service.image}`}
+                      src={service.image}
                       alt={service.name}
                       className="h-full w-full object-cover transition-transform hover:scale-105"
                     />
