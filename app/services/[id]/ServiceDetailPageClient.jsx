@@ -15,10 +15,23 @@ import { Textarea } from "@/components/ui/textarea"
 export default function ServiceDetailPageClient({ params }) {
   const [selectedDate, setSelectedDate] = useState("")
   const [selectedTime, setSelectedTime] = useState("")
+  const [pet, setPet] = useState("")
+  const [notes, setNotes] = useState("")
+  const [success, setSuccess] = useState(undefined)
+  const [loading, setLoading] = useState(false)
 
-  // Datos simulados del servicio
+  const serviceImages = {
+    1: "/vet-service.jpg",
+    2: "/grooming-service.jpg",
+    3: "/dog-walking.jpg",
+    4: "/pet-hotel.jpg",
+  }
+
+  const id = Number.parseInt(params.id)
+  const image = serviceImages[id] || "/vet-service.jpg"
+
   const service = {
-    id: Number.parseInt(params.id),
+    id,
     name: "Consulta Veterinaria General",
     provider: "Clínica Veterinaria PetHealth",
     rating: 4.8,
@@ -26,44 +39,77 @@ export default function ServiceDetailPageClient({ params }) {
     price: "$45.000",
     duration: "30 minutos",
     location: "Calle Principal #123, Barranquilla",
-    image: "/placeholder.svg?height=400&width=600",
+    image,
     description:
       "Evaluación completa del estado de salud de tu mascota, incluyendo revisión física y recomendaciones de cuidado. Nuestros veterinarios certificados realizarán un examen detallado para asegurar el bienestar de tu mascota.",
     longDescription:
       "La consulta veterinaria general es un servicio esencial para mantener la salud de tu mascota. Durante la consulta, nuestros veterinarios realizarán:\n\n- Examen físico completo\n- Revisión de signos vitales\n- Evaluación de peso y condición corporal\n- Revisión de vacunas y desparasitación\n- Recomendaciones de alimentación y cuidados\n\nEste servicio es recomendado al menos una vez al año para mascotas adultas sanas y con mayor frecuencia para cachorros, mascotas mayores o con condiciones crónicas.",
   }
 
-  // Datos simulados de reseñas
   const reviews = [
     {
       id: 1,
       user: "Carlos Rodríguez",
       rating: 5,
       date: "10 de marzo, 2025",
-      comment:
-        "Excelente servicio, el veterinario fue muy amable y profesional. Mi perro se sintió cómodo durante toda la consulta.",
+      comment: "Excelente servicio, el veterinario fue muy amable y profesional. Mi perro se sintió cómodo durante toda la consulta.",
     },
     {
       id: 2,
       user: "María López",
       rating: 4,
       date: "5 de marzo, 2025",
-      comment:
-        "Buena atención y diagnóstico acertado. El único inconveniente fue que tuve que esperar un poco más de lo programado.",
+      comment: "Buena atención y diagnóstico acertado. El único inconveniente fue que tuve que esperar un poco más de lo programado.",
     },
     {
       id: 3,
       user: "Juan Pérez",
       rating: 5,
       date: "28 de febrero, 2025",
-      comment:
-        "Muy satisfecho con la consulta. El doctor explicó todo detalladamente y respondió todas mis dudas sobre la salud de mi gato.",
+      comment: "Muy satisfecho con la consulta. El doctor explicó todo detalladamente y respondió todas mis dudas sobre la salud de mi gato.",
     },
   ]
 
-  // Datos simulados de horarios disponibles
-  const availableDates = ["2025-04-15", "2025-04-16", "2025-04-17", "2025-04-18", "2025-04-19"]
-  const availableTimes = ["09:00", "10:00", "11:00", "12:00", "15:00", "16:00", "17:00"]
+  const availableDates = [
+    "2025-04-15",
+    "2025-04-16",
+    "2025-04-17",
+    "2025-04-18",
+    "2025-04-19",
+  ]
+  const availableTimes = [
+    "09:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "15:00",
+    "16:00",
+    "17:00",
+  ]
+
+  const handleReserve = () => {
+    setLoading(true)
+    setTimeout(() => {
+      const successRandom = Math.random() > 0.15
+      setSuccess(successRandom)
+      setLoading(false)
+      if (successRandom) {
+        const prev = JSON.parse(localStorage.getItem("pawcare_reservations") || "[]")
+        prev.push({
+          serviceId: service.id,
+          serviceName: service.name,
+          serviceImage: service.image,
+          provider: service.provider,
+          price: service.price,
+          petName: pet,
+          date: selectedDate,
+          time: selectedTime,
+          notes,
+        })
+        localStorage.setItem("pawcare_reservations", JSON.stringify(prev))
+      }
+    }, 1200)
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -87,135 +133,65 @@ export default function ServiceDetailPageClient({ params }) {
                     className="h-full w-full object-cover"
                   />
                 </div>
-
-                <div>
-                  <h1 className="text-3xl font-bold tracking-tight">{service.name}</h1>
-                  <div className="mt-2 flex items-center gap-2">
-                    <div className="flex items-center">
-                      <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                      <span className="ml-1 font-medium">{service.rating}</span>
-                      <span className="ml-1 text-muted-foreground">({service.reviews} reseñas)</span>
-                    </div>
-                    <Separator orientation="vertical" className="h-5" />
-                    <span className="text-muted-foreground">{service.provider}</span>
-                  </div>
-                </div>
-
-                <Tabs defaultValue="description">
-                  <TabsList>
-                    <TabsTrigger value="description">Descripción</TabsTrigger>
-                    <TabsTrigger value="reviews">Reseñas</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="description" className="mt-4 space-y-4">
-                    <div>
-                      <h2 className="text-xl font-bold">Acerca de este servicio</h2>
-                      <p className="mt-2">{service.description}</p>
-                      <div className="mt-4 whitespace-pre-line">{service.longDescription}</div>
-                    </div>
-
-                    <div className="grid gap-4 md:grid-cols-2">
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-5 w-5 text-muted-foreground" />
-                        <div>
-                          <p className="font-medium">Duración</p>
-                          <p className="text-sm text-muted-foreground">{service.duration}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <DollarSign className="h-5 w-5 text-muted-foreground" />
-                        <div>
-                          <p className="font-medium">Precio</p>
-                          <p className="text-sm text-muted-foreground">{service.price}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <User className="h-5 w-5 text-muted-foreground" />
-                        <div>
-                          <p className="font-medium">Proveedor</p>
-                          <p className="text-sm text-muted-foreground">{service.provider}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-5 w-5 text-muted-foreground" />
-                        <div>
-                          <p className="font-medium">Ubicación</p>
-                          <p className="text-sm text-muted-foreground">{service.location}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="reviews" className="mt-4 space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>{service.name}</CardTitle>
+                    <CardDescription>{service.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
                     <div className="flex items-center gap-4">
-                      <div className="flex flex-col items-center">
-                        <div className="text-3xl font-bold">{service.rating}</div>
-                        <div className="flex">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <Star
-                              key={star}
-                              className={`h-4 w-4 ${
-                                star <= Math.floor(service.rating)
-                                  ? "fill-yellow-400 text-yellow-400"
-                                  : "text-muted-foreground"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                        <div className="text-sm text-muted-foreground">{service.reviews} reseñas</div>
-                      </div>
-                      <Separator orientation="vertical" className="h-16" />
-                      <div className="flex-1">
-                        <div className="space-y-1">
-                          {[5, 4, 3, 2, 1].map((rating) => {
-                            const count = reviews.filter((r) => r.rating === rating).length
-                            const percentage = (count / reviews.length) * 100
-                            return (
-                              <div key={rating} className="flex items-center gap-2">
-                                <div className="flex w-20 items-center">
-                                  <span className="text-sm">{rating}</span>
-                                  <Star className="ml-1 h-3 w-3 fill-yellow-400 text-yellow-400" />
-                                </div>
-                                <div className="h-2 flex-1 rounded-full bg-muted">
-                                  <div
-                                    className="h-2 rounded-full bg-yellow-400"
-                                    style={{ width: `${percentage}%` }}
-                                  ></div>
-                                </div>
-                                <div className="w-10 text-right text-sm text-muted-foreground">{count}</div>
-                              </div>
-                            )
-                          })}
-                        </div>
-                      </div>
+                      <Star className="h-5 w-5 text-yellow-400" />
+                      <span className="font-semibold">{service.rating}</span>
+                      <span className="text-muted-foreground">({service.reviews} reseñas)</span>
                     </div>
-
-                    <Separator />
-
-                    <div className="space-y-6">
+                    <div className="flex items-center gap-4">
+                      <DollarSign className="h-5 w-5" />
+                      <span>{service.price}</span>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <Clock className="h-5 w-5" />
+                      <span>{service.duration}</span>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <MapPin className="h-5 w-5" />
+                      <span>{service.location}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Separator />
+                <Tabs defaultValue="descripcion">
+                  <TabsList>
+                    <TabsTrigger value="descripcion">Descripción</TabsTrigger>
+                    <TabsTrigger value="resenas">Reseñas</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="descripcion">
+                    <p className="whitespace-pre-line">{service.longDescription}</p>
+                  </TabsContent>
+                  <TabsContent value="resenas">
+                    <div className="space-y-4">
                       {reviews.map((review) => (
-                        <div key={review.id} className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <div className="font-medium">{review.user}</div>
-                            <div className="text-sm text-muted-foreground">{review.date}</div>
-                          </div>
-                          <div className="flex">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <Star
-                                key={star}
-                                className={`h-4 w-4 ${
-                                  star <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"
-                                }`}
-                              />
-                            ))}
-                          </div>
-                          <p className="text-sm">{review.comment}</p>
-                        </div>
+                        <Card key={review.id}>
+                          <CardHeader className="flex flex-row items-center gap-4">
+                            <User className="h-6 w-6 text-primary" />
+                            <div>
+                              <div className="font-semibold">{review.user}</div>
+                              <div className="flex items-center gap-2">
+                                <Star className="h-4 w-4 text-yellow-400" />
+                                <span>{review.rating}</span>
+                              </div>
+                              <div className="text-xs text-muted-foreground">{review.date}</div>
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            <p>{review.comment}</p>
+                          </CardContent>
+                        </Card>
                       ))}
                     </div>
                   </TabsContent>
                 </Tabs>
               </div>
             </div>
-
             <div>
               <Card className="sticky top-20">
                 <CardHeader>
@@ -243,7 +219,6 @@ export default function ServiceDetailPageClient({ params }) {
                       </SelectContent>
                     </Select>
                   </div>
-
                   <div className="space-y-2">
                     <Label htmlFor="time">Hora</Label>
                     <Select value={selectedTime} onValueChange={setSelectedTime} disabled={!selectedDate}>
@@ -259,10 +234,9 @@ export default function ServiceDetailPageClient({ params }) {
                       </SelectContent>
                     </Select>
                   </div>
-
                   <div className="space-y-2">
                     <Label htmlFor="pet">Mascota</Label>
-                    <Select>
+                    <Select value={pet} onValueChange={setPet}>
                       <SelectTrigger id="pet">
                         <SelectValue placeholder="Selecciona tu mascota" />
                       </SelectTrigger>
@@ -273,13 +247,14 @@ export default function ServiceDetailPageClient({ params }) {
                       </SelectContent>
                     </Select>
                   </div>
-
                   <div className="space-y-2">
                     <Label htmlFor="notes">Notas adicionales</Label>
                     <Textarea
                       id="notes"
                       placeholder="Información adicional para el prestador de servicios"
                       className="min-h-[80px]"
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
                     />
                   </div>
                 </CardContent>
@@ -288,12 +263,34 @@ export default function ServiceDetailPageClient({ params }) {
                     <div className="text-sm">Precio:</div>
                     <div className="font-bold">{service.price}</div>
                   </div>
-                  <Button className="w-full" disabled={!selectedDate || !selectedTime}>
-                    Confirmar reserva
+                  <Button
+                    className="w-full"
+                    onClick={handleReserve}
+                    disabled={!selectedDate || !selectedTime || !pet || loading}
+                  >
+                    {loading ? "Reservando..." : "Confirmar reserva"}
                   </Button>
                   <div className="text-xs text-center text-muted-foreground">
                     No se realizará ningún cargo hasta que el prestador confirme la reserva
                   </div>
+                  {success === true && (
+                    <div className="bg-green-100 border border-green-300 rounded-lg p-6 text-center animate-fade-in mt-4">
+                      <h3 className="text-2xl font-bold text-green-700 mb-2">¡Reserva exitosa!</h3>
+                      <p className="mb-4">Recibirás un correo de confirmación con los detalles de tu reserva.</p>
+                      <Button onClick={() => window.location.href = '/history'} className="mt-2">
+                        Ver historial de reservas
+                      </Button>
+                    </div>
+                  )}
+                  {success === false && (
+                    <div className="bg-red-100 border border-red-300 rounded-lg p-6 text-center animate-fade-in mt-4">
+                      <h3 className="text-2xl font-bold text-red-700 mb-2">No se pudo crear la reserva</h3>
+                      <p className="mb-4">Ocurrió un error inesperado. Por favor, intenta nuevamente.</p>
+                      <Button onClick={() => setSuccess(undefined)} className="mt-2">
+                        Intentar de nuevo
+                      </Button>
+                    </div>
+                  )}
                 </CardFooter>
               </Card>
             </div>
@@ -302,10 +299,9 @@ export default function ServiceDetailPageClient({ params }) {
       </main>
       <footer className="border-t bg-muted/40">
         <div className="container flex flex-col gap-2 py-4 text-center text-sm text-muted-foreground md:py-6">
-          <p>© 2025 PawCare. Todos los derechos reservados.</p>
+          <p>2025 PawCare. Todos los derechos reservados.</p>
         </div>
       </footer>
     </div>
   )
 }
-
