@@ -21,10 +21,10 @@ export default function ServiceDetailPageClient({ params }) {
   const [loading, setLoading] = useState(false)
 
   const serviceImages = {
-    1: "/vet-service.jpg",
-    2: "/grooming-service.jpg",
-    3: "/dog-walking.jpg",
-    4: "/pet-hotel.jpg",
+    1: "/consulta-veterinaria-general.jpg",
+    2: "/peluqueria-canina-completa.png",
+    3: "/paseo-de-perros.jpg",
+    4: "/guarderia-de-mascotas.png",
   }
 
   const id = Number.parseInt(params.id)

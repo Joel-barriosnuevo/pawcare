@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Camera, Save } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -27,7 +27,23 @@ export default function ClientProfile() {
     age: "",
     weight: "",
     notes: "",
+    image: "",
   })
+
+  const [petImagePreview, setPetImagePreview] = useState("");
+
+  // Cargar datos del usuario desde localStorage al montar
+  useEffect(() => {
+    const storedUser = localStorage.getItem("pawcare_user")
+    if (storedUser) {
+      const userData = JSON.parse(storedUser)
+      setProfile((prev) => ({
+        ...prev,
+        name: userData.name || prev.name,
+        email: userData.email || prev.email,
+      }))
+    }
+  }, [])
 
   const handleProfileUpdate = (e) => {
     e.preventDefault()
@@ -36,15 +52,15 @@ export default function ClientProfile() {
   }
 
   const handleAddPet = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const pet = {
       id: profile.pets.length + 1,
       ...newPet,
-    }
+    };
     setProfile({
       ...profile,
       pets: [...profile.pets, pet],
-    })
+    });
     setNewPet({
       name: "",
       type: "",
@@ -52,8 +68,22 @@ export default function ClientProfile() {
       age: "",
       weight: "",
       notes: "",
-    })
-  }
+      image: "",
+    });
+    setPetImagePreview("");
+  };
+
+  const handlePetImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPetImagePreview(reader.result);
+        setNewPet((prev) => ({ ...prev, image: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -63,7 +93,7 @@ export default function ClientProfile() {
         <Card className="shadow-xl border-0 bg-gradient-to-br from-white via-slate-50 to-secondary/10 animate-fade-in">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-2xl text-primary">
-              <img src="/logo.png" alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Información Personal
+              <img src={typeof window !== 'undefined' ? window.location.origin + '/logo.png' : '/logo.png'} alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Información Personal
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -93,6 +123,7 @@ export default function ClientProfile() {
                   onChange={(e) => setProfile({ ...profile, name: e.target.value })}
                   placeholder="Agrega tu nombre completo"
                   className="transition-shadow focus:ring-2 focus:ring-accent"
+                  autoComplete="name"
                 />
               </div>
 
@@ -105,6 +136,7 @@ export default function ClientProfile() {
                   onChange={(e) => setProfile({ ...profile, email: e.target.value })}
                   placeholder="Agrega tu correo electrónico"
                   className="transition-shadow focus:ring-2 focus:ring-accent"
+                  autoComplete="email"
                 />
               </div>
 
@@ -140,7 +172,7 @@ export default function ClientProfile() {
         <Card className="shadow-xl border-0 bg-gradient-to-br from-white via-slate-50 to-accent/10 animate-fade-in">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-2xl text-primary">
-              <img src="/logo.png" alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Mis Mascotas
+              <img src={typeof window !== 'undefined' ? window.location.origin + '/logo.png' : '/logo.png'} alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Mis Mascotas
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -151,35 +183,31 @@ export default function ClientProfile() {
                 <p className="text-muted-foreground mb-4">Agrega tu primera mascota para empezar a reservar servicios.</p>
               </div>
             ) : (
-              <div className="space-y-4 animate-fade-in">
-                {profile.pets.map((pet) => (
-                  <Card key={pet.id} className="bg-muted shadow border-0 hover:scale-[1.01] transition-transform duration-200">
-                    <CardContent>
-                      <div className="grid gap-2">
-                        <div className="flex justify-between">
-                          <span className="font-medium text-primary">{pet.name}</span>
-                          <Button variant="ghost" size="sm" className="hover:text-accent">
-                            Editar
-                          </Button>
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          {pet.type} - {pet.breed}
-                        </div>
-                        <div className="text-sm">
-                          <span className="text-gray-600">Edad:</span> {pet.age} años
-                        </div>
-                        <div className="text-sm">
-                          <span className="text-gray-600">Peso:</span> {pet.weight} kg
-                        </div>
-                        {pet.notes && (
-                          <div className="text-sm">
-                            <span className="text-gray-600">Notas:</span> {pet.notes}
+              <div>
+                <h2 className="text-2xl font-semibold mb-4">Tus Mascotas</h2>
+                <div className="grid gap-4 md:grid-cols-2">
+                  {profile.pets.map((pet) => (
+                    <Card key={pet.id} className="shadow-md animate-fade-in border border-accent/30">
+                      <CardHeader className="flex flex-row items-center gap-4">
+                        <Avatar className="h-20 w-20 ring-2 ring-accent/30">
+                          <AvatarImage src={pet.image || '/file.svg'} alt={pet.name} />
+                          <AvatarFallback>{pet.name?.[0] || "M"}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="font-bold text-xl text-primary">{pet.name}</div>
+                          <div className="text-sm text-muted-foreground mb-1">{pet.type} {pet.breed && `- ${pet.breed}`}</div>
+                          <div className="flex gap-2 text-xs text-gray-600">
+                            <span>Edad: <span className="font-semibold">{pet.age}</span> años</span>
+                            <span>Peso: <span className="font-semibold">{pet.weight}</span> kg</span>
                           </div>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                          {pet.notes && (
+                            <div className="text-xs mt-1 text-gray-500 italic">{pet.notes}</div>
+                          )}
+                        </div>
+                      </CardHeader>
+                    </Card>
+                  ))}
+                </div>
               </div>
             )}
           </CardContent>
@@ -188,7 +216,7 @@ export default function ClientProfile() {
         <Card className="shadow-xl border-0 bg-gradient-to-br from-white via-slate-50 to-accent/10 animate-fade-in">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-2xl text-primary">
-              <img src="/logo.png" alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Agregar Nueva Mascota
+              <img src={typeof window !== 'undefined' ? window.location.origin + '/logo.png' : '/logo.png'} alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Agregar Nueva Mascota
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -256,6 +284,24 @@ export default function ClientProfile() {
                   placeholder="Alergias, condiciones especiales, etc."
                   className="transition-shadow focus:ring-2 focus:ring-accent"
                 />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="pet-image">Foto de la mascota</Label>
+                <Input
+                  id="pet-image"
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePetImageChange}
+                  className="transition-shadow focus:ring-2 focus:ring-accent"
+                />
+                {petImagePreview && (
+                  <img
+                    src={petImagePreview}
+                    alt="Vista previa"
+                    className="w-32 h-32 object-cover rounded-lg mt-2 shadow border border-accent/40"
+                  />
+                )}
               </div>
 
               <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-white shadow-md transition-transform duration-200 hover:scale-105 animate-fade-in">

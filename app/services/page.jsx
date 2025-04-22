@@ -11,6 +11,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator"
 
 export default function ServicesPage() {
+  // Utilidad para obtener la URL absoluta de la imagen
+  function getImageUrl(path) {
+    if (typeof window !== "undefined") {
+      return window.location.origin + path;
+    }
+    // Fallback para SSR/Next.js build
+    return (process.env.NEXT_PUBLIC_BASE_URL || "") + path;
+  }
+
   // Datos simulados de servicios
   const services = [
     {
@@ -20,7 +29,7 @@ export default function ServicesPage() {
       rating: 4.8,
       reviews: 124,
       price: "$45.000",
-      image: "/consulta-veterinaria-general.jpg", // Imagen veterinaria realista
+      image: getImageUrl("/consulta-veterinaria-general.jpg"),
       description:
         "Evaluación completa del estado de salud de tu mascota, incluyendo revisión física y recomendaciones de cuidado.",
     },
@@ -31,7 +40,7 @@ export default function ServicesPage() {
       rating: 4.7,
       reviews: 98,
       price: "$30.000",
-      image: "/peluqueria-canina-completa.png", // Imagen grooming realista
+      image: getImageUrl("/peluqueria-canina-completa.png"),
       description:
         "Baño, corte de pelo y uñas, limpieza de oídos y spa para consentir a tu perro.",
     },
@@ -42,7 +51,7 @@ export default function ServicesPage() {
       rating: 4.9,
       reviews: 150,
       price: "$15.000",
-      image: "/paseo-de-perros.jpg", // Imagen paseo realista
+      image: getImageUrl("/paseo-de-perros.jpg"),
       description:
         "Paseos diarios o programados para perros de todas las razas y tamaños.",
     },
@@ -53,7 +62,7 @@ export default function ServicesPage() {
       rating: 4.6,
       reviews: 76,
       price: "$60.000",
-      image: "/guarderia-de-mascotas.png", // Imagen guardería realista
+      image: getImageUrl("/guarderia-de-mascotas.png"),
       description:
         "Cuidado diurno o por noches para tu mascota en un ambiente seguro y divertido.",
     },

@@ -53,14 +53,14 @@ export default function Home() {
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-primary drop-shadow-lg">
                   Cuidado experto para tu mascota
                 </h1>
-                <p className="max-w-[600px] text-gray-700 md:text-xl bg-white/80 rounded-lg p-2 shadow animate-fade-in">
+                <p className="max-w-[600px] text-gray-700 md:text-xl p-2 animate-fade-in">
                   Conectamos a dueños de mascotas con los mejores cuidadores profesionales. Servicios de calidad y
                   confianza para tu compañero peludo.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <Link href="/register?type=client">
-                  <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-white shadow-lg animate-bounce">
+                  <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-white shadow-lg">
                     Buscar Servicios
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
@@ -87,10 +87,6 @@ export default function Home() {
                   src="/logo.png"
                   width="400"
                 />
-                <div className="absolute bottom-4 right-4 bg-white/90 rounded-full px-4 py-2 shadow flex items-center gap-2 animate-fade-in">
-                  <img src="/logo.png" alt="Logo PawCare" className="h-6 w-6 rounded-full" />
-                  <span className="font-semibold text-primary">¡Cuidamos lo que amas!</span>
-                </div>
               </div>
             </div>
           </div>
