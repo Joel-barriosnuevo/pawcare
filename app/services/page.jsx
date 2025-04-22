@@ -125,7 +125,7 @@ export default function ServicesPage() {
                 <Card key={service.id} className="overflow-hidden">
                   <div className="aspect-video w-full overflow-hidden">
                     <img
-                      src={service.image}
+                      src={service.image.startsWith('http') ? service.image : `${baseUrl}${service.image}`}
                       alt={service.name}
                       className="h-full w-full object-cover transition-transform hover:scale-105"
                     />

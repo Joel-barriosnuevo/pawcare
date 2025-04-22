@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
+// Utilidad para obtener la URL base para imágenes locales (soporta subcarpetas de deploy)
+const baseUrl = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 const serviceData = [
   {
     id: 1,
@@ -9,7 +12,7 @@ const serviceData = [
     rating: 4.8,
     reviews: 124,
     price: "$45.000",
-    image: "/consulta-veterinaria-general.jpg",
+    image: `${baseUrl}/consulta-veterinaria-general.jpg`,
     description:
       "Evaluación completa del estado de salud de tu mascota, incluyendo revisión física y recomendaciones de cuidado.",
   },
@@ -20,7 +23,7 @@ const serviceData = [
     rating: 4.7,
     reviews: 98,
     price: "$30.000",
-    image: "/peluqueria-canina-completa.png",
+    image: `${baseUrl}/peluqueria-canina-completa.png`,
     description:
       "Baño, corte de pelo y uñas, limpieza de oídos y spa para consentir a tu perro.",
   },
@@ -31,7 +34,7 @@ const serviceData = [
     rating: 4.9,
     reviews: 150,
     price: "$15.000",
-    image: "/paseo-de-perros.jpg",
+    image: `${baseUrl}/paseo-de-perros.jpg`,
     description:
       "Paseos diarios o programados para perros de todas las razas y tamaños.",
   },
@@ -42,7 +45,7 @@ const serviceData = [
     rating: 4.6,
     reviews: 76,
     price: "$60.000",
-    image: "/guarderia-de-mascotas.png",
+    image: `${baseUrl}/guarderia-de-mascotas.png`,
     description:
       "Cuidado diurno o por noches para tu mascota en un ambiente seguro y divertido.",
   },
@@ -68,9 +71,9 @@ export default function ServiceDetail({ params }) {
       <Card className="max-w-2xl w-full">
         <CardContent className="flex flex-col md:flex-row gap-6 p-6">
           <img
-            src={service.image}
+            src={service.image.startsWith('http') ? service.image : `${baseUrl}${service.image}`} // Ajuste para rutas absolutas
             alt={service.name}
-            className="w-48 h-48 object-cover rounded-lg border-2 border-accent shadow"
+            className="h-48 w-full object-cover rounded-t-lg"
           />
           <div className="flex-1">
             <h2 className="text-3xl font-bold text-primary mb-2">{service.name}</h2>
