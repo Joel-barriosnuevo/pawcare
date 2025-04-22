@@ -32,6 +32,9 @@ export default function ClientProfile() {
 
   const [petImagePreview, setPetImagePreview] = useState("");
 
+  // Define baseUrl para imágenes locales (ajusta si tu subcarpeta de deploy es distinta)
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
   // Cargar datos del usuario desde localStorage al montar
   useEffect(() => {
     const storedUser = localStorage.getItem("pawcare_user")
@@ -93,7 +96,7 @@ export default function ClientProfile() {
         <Card className="shadow-xl border-0 bg-gradient-to-br from-white via-slate-50 to-secondary/10 animate-fade-in">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-2xl text-primary">
-              <img src={typeof window !== 'undefined' ? window.location.origin + '/logo.png' : '/logo.png'} alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Información Personal
+              <img src={`${baseUrl}/logo.png`} alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Información Personal
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -172,7 +175,7 @@ export default function ClientProfile() {
         <Card className="shadow-xl border-0 bg-gradient-to-br from-white via-slate-50 to-accent/10 animate-fade-in">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-2xl text-primary">
-              <img src={typeof window !== 'undefined' ? window.location.origin + '/logo.png' : '/logo.png'} alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Mis Mascotas
+              <img src={`${baseUrl}/logo.png`} alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Mis Mascotas
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -216,7 +219,7 @@ export default function ClientProfile() {
         <Card className="shadow-xl border-0 bg-gradient-to-br from-white via-slate-50 to-accent/10 animate-fade-in">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-2xl text-primary">
-              <img src={typeof window !== 'undefined' ? window.location.origin + '/logo.png' : '/logo.png'} alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Agregar Nueva Mascota
+              <img src={`${baseUrl}/logo.png`} alt="Logo PawCare" className="h-8 w-8 rounded-full shadow-lg border-2 border-accent bg-white object-cover" /> Agregar Nueva Mascota
             </CardTitle>
           </CardHeader>
           <CardContent>
